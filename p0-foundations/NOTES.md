@@ -59,4 +59,4 @@ Actually: I was signed into citymove-lab, not citymove-platform. Two accounts,
 two browser profiles, and I had not checked the account ID in the top right.
 Fix: switched accounts. Cost me ten minutes.
 Lesson: check the account ID before doing anything. With two accounts, the
-resource you forget will be in the one you were not looking at.test line
+resource you forget will be in the one you were not looking at.
