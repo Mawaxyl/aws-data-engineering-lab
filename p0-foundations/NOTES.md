@@ -60,3 +60,14 @@ two browser profiles, and I had not checked the account ID in the top right.
 Fix: switched accounts. Cost me ten minutes.
 Lesson: check the account ID before doing anything. With two accounts, the
 resource you forget will be in the one you were not looking at.
+
+### 3 Nov — VPC subnet associations appeared to be missing
+Observed: Route tables page showed "Explicit subnet associations (0)".
+Thought: the VPC wizard had failed to attach the subnets.
+Actually: the page header said "Last updated 34 minutes ago" — it was showing
+data fetched while the VPC was still provisioning. "VPC and more" creates about
+a dozen resources in sequence and subnet associations come near the end.
+Refreshing later showed 2 / 1 / 1, correct, with no action taken.
+Lesson: read the "Last updated" timestamp before diagnosing anything. The AWS
+console does not auto-refresh, and a resource that reports "Available" may
+still have components being created behind it.
