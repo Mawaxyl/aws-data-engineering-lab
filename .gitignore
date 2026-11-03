@@ -1,0 +1,48 @@
+# ---- credentials: never, under any circumstances ----
+.aws/
+credentials
+*.pem
+*.ppk
+*.key
+.env
+.env.*
+!.env.example
+*secret*
+*password*
+
+# ---- data: too big for git, and often licensed ----
+*.parquet
+*.csv
+*.zip
+*.gz
+*.tar
+*/data/*
+!*/data/.gitkeep
+
+# ---- python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# ---- IaC state ----
+.terraform/
+*.tfstate
+*.tfstate.*
+cdk.out/
+.aws-sam/
+
+# ---- spark / local engines ----
+spark-warehouse/
+metastore_db/
+derby.log
+warehouse/
+
+# ---- os / editor ----
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
