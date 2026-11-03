@@ -62,7 +62,7 @@ fi
 # A denial is the expected, correct answer here — not a failure.
 IAM_OUT=$(aws iam list-users --query 'Users[].UserName' --output text 2>&1)
 if [[ "$IAM_OUT" == *"AccessDenied"* || "$IAM_OUT" == *"not authorized"* ]]; then
-  pass "iam:ListUsers denied by the project SCP — IAM users are not in play"
+  pass "iam:ListUsers denied (PowerUserAccess excludes IAM) — no IAM users in play"
 elif [[ -z "$IAM_OUT" || "$IAM_OUT" == "None" ]]; then
   pass "no IAM users in the account"
 else
@@ -99,8 +99,9 @@ fi
 pass "VPC $VPC_ID exists"
 
 DNS_H=$(aws ec2 describe-vpc-attribute --region "$REGION" --vpc-id "$VPC_ID" \
-  --attribute enableDnsHostnames --query 'EnableDnsHostnames.Value' --output text)
-[[ "$DNS_H" == "True" ]] \
+  --attribute enableDnsHostnames --query 'EnableDnsHostnames.Value' --output text \
+  | tr '[:upper:]' '[:lower:]')
+[[ "$DNS_H" == "true" ]] \
   && pass "DNS hostnames enabled (RDS/MSK endpoints will resolve)" \
   || fail "DNS hostnames disabled — RDS and MSK endpoints will not resolve"
 
@@ -139,7 +140,8 @@ fi
 
 S3_ON_PRIV=$(aws ec2 describe-vpc-endpoints --region "$REGION" \
   --filters "Name=vpc-id,Values=$VPC_ID" "Name=service-name,Values=com.amazonaws.$REGION.s3" \
-  --query "contains(VpcEndpoints[0].RouteTableIds, '$RTB_PRIV')" --output text)
+  --query "contains(VpcEndpoints[0].RouteTableIds, '$RTB_PRIV')" --output text \
+  | tr '[:upper:]' '[:lower:]')
 [[ "$S3_ON_PRIV" == "true" ]] \
   && pass "S3 endpoint is attached to the private route table" \
   || fail "S3 endpoint is NOT on the private route table"
@@ -196,7 +198,7 @@ section "Security groups"
 
 SELF_REF=$(aws ec2 describe-security-groups --region "$REGION" --group-ids "$SG_GLUE" \
   --query "contains(SecurityGroups[0].IpPermissions[].UserIdGroupPairs[].GroupId, '$SG_GLUE')" \
-  --output text 2>/dev/null)
+  --output text 2>/dev/null | tr '[:upper:]' '[:lower:]')
 [[ "$SELF_REF" == "true" ]] \
   && pass "sg-glue has the self-referencing rule Glue requires" \
   || fail "sg-glue is MISSING its self-referencing rule — Glue-in-VPC jobs will hang then time out"

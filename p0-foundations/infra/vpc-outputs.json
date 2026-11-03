@@ -1,0 +1,14 @@
+{
+  "region": "eu-west-1",
+  "vpc_id": "vpc-0ef6d0eb9ae1c5477",
+  "igw_id": "igw-0224590078b0ded9c",
+  "subnets": {
+    "public":  { "eu-west-1a": "subnet-0d3bb8c07336f1aff",  "eu-west-1b": "subnet-0c44649c684689979" },
+    "private": { "eu-west-1a": "subnet-0adc5f6a104bc218e", "eu-west-1b": "subnet-01878134e9e822d18" }
+  },
+  "route_tables": { "public": "rtb-04347ac6370ac98f2", "private": "rtb-0cd39de56d4af348e" },
+  "vpc_endpoints": { "s3": "vpce-071d7345a5d36d662", "dynamodb": "vpce-04225c73b06d1283c" },
+  "security_groups": { "glue": "sg-015cb7a71e0edf744", "db": "sg-07cd9b291c3c73975", "kafka_client": "sg-0227584f59c800d91" },
+  "db_subnet_group": "citymove-db-subnets",
+  "nat_gateway": null
+}
